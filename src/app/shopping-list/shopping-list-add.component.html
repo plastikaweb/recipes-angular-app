@@ -8,7 +8,7 @@
                             type="text"
                             required class="form-control"
                             id="item-name"
-                            ngModel name="name">
+                            [ngModel]="item.name" name="name">
                 </div>
                 <div class="col-sm-2 form-group">
                     <label for="item-amount">Amount</label>
@@ -16,7 +16,7 @@
                             type="text"
                             class="form-control"
                             id="item-amount"
-                            ngModel name="amount">
+                            [ngModel]="item.amount" name="amount">
                 </div>
             </div>
             <div class="row">
