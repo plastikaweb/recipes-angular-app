@@ -28,9 +28,11 @@
                             type="submit" *ngIf="!isAdd"
                             [disabled]="!f.valid">Save</button>
                     <button class="btn btn-danger"
-                            type="button" *ngIf="!isAdd">Delete item</button>
+                            type="button" *ngIf="!isAdd"
+                            (click)="onDelete()">Delete item</button>
                     <button class="btn btn-primary"
-                            type="button" *ngIf="!isAdd">Clear</button>
+                            type="button" *ngIf="!isAdd"
+                            (click)="onClear()">Clear</button>
                 </div>
             </div>
         </form>
