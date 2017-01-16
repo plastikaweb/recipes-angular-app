@@ -1,6 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Recipe} from './recipe';
 import {Ingredient} from '../shared/ingredient';
+import {Headers, Http, Response} from '@angular/http';
+import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
 
 @Injectable()
 export class RecipeService {
@@ -13,7 +16,7 @@ export class RecipeService {
 
     ];
 
-    constructor() {
+    constructor(private http: Http) {
     }
 
     getRecipes() {
@@ -34,6 +37,27 @@ export class RecipeService {
 
     editRecipe(oldRecipe: Recipe, newRecipe: Recipe) {
         this.recipes[this.recipes.indexOf( oldRecipe )] = newRecipe;
+    }
+
+    storeData(): Observable<any> {
+        const body = JSON.stringify( this.recipes );
+        const headers = new Headers( {
+            'Content-Type': 'application/json'
+        } );
+        return this.http.put( 'https://recipebook-c272f.firebaseio.com/recipes.json', body, {
+            headers: headers
+        } );
+    }
+
+    fetchData(): any {
+        return this.http.get( 'https://recipebook-c272f.firebaseio.com/recipes.json' )
+            .map( (response: Response) => response.json() )
+            .subscribe(
+                (data: Recipe[]) => {
+                    console.log(data);
+                    this.recipes = data;
+                }
+            )
     }
 
 }
