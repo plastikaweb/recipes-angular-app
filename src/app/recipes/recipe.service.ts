@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, EventEmitter} from '@angular/core';
 import {Recipe} from './recipe';
 import {Ingredient} from '../shared/ingredient';
 import {Headers, Http, Response} from '@angular/http';
@@ -7,6 +7,7 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class RecipeService {
+    recipesChanged = new EventEmitter<Recipe[]>();
     private recipes: Recipe[] = [
         new Recipe( 'Dummy', 'Dummy', 'https://www.nutella.com/documents/8340659/8365575/nocciola.png/f393b2c8-2c86-4759-817b-ff6604864a16', [
             new Ingredient( 'French fries', 2 ),
@@ -54,8 +55,8 @@ export class RecipeService {
             .map( (response: Response) => response.json() )
             .subscribe(
                 (data: Recipe[]) => {
-                    console.log(data);
                     this.recipes = data;
+                    this.recipesChanged.emit(this.recipes);
                 }
             )
     }
